@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- setting text size of main activity-->
+    <dimen name="main_activity_text_size_12sp">12sp</dimen>
+    <dimen name="main_toolbar_text_size_16sp">16sp</dimen>
+    <dimen name="main_no_note_text_size_14sp">14sp</dimen>
+    <dimen name="main_item_text_size_18sp">18sp</dimen>
+    <dimen name="main_item_text_size_12sp">12sp</dimen>
+
+    <!-- setting padding of main activity -->
+    <dimen name="main_toolbar_padding_0dp">0dp</dimen>
+    <dimen name="main_toolbar_padding_10dp">10dp</dimen>
+    <dimen name="main_toolbar_padding_12dp">12dp</dimen>
+    <dimen name="main_item_padding_10dp">10dp</dimen>
+    <dimen name="main_item_padding_5dp">5dp</dimen>
+
+    <!-- setting margin of main activity -->
+    <dimen name="main_toolbar_margin_3dp">3dp</dimen>
+    <dimen name="main_item_margin_5dp">5dp</dimen>
+    <dimen name="main_item_margin_10dp">10dp</dimen>
+
+    <!-- /////////////////////////////////////////-->
+
+    <!-- setting padding of note detail activity -->
+    <dimen name="detail_toolbar_padding_0dp">0dp</dimen>
+    <dimen name="detail_toolbar_padding_10dp">10dp</dimen>
+    <dimen name="detail_toolbar_padding_12dp">12dp</dimen>
+    <dimen name="detail_toolbar_padding_14dp">14dp</dimen>
+
+    <dimen name="detail_bottom_padding_0dp">0dp</dimen>
+    <dimen name="detail_bottom_padding_3dp">3dp</dimen>
+    <dimen name="detail_bottom_padding_5dp">5dp</dimen>
+    <dimen name="detail_bottom_padding_10dp">10dp</dimen>
+    <dimen name="detail_bottom_padding_12dp">12dp</dimen>
+
+    <dimen name="detail_date_padding_12dp">12dp</dimen>
+    <dimen name="detail_alarm_padding_10dp">10dp</dimen>
+    <dimen name="detail_hint_padding_10dp">10dp</dimen>
+    <dimen name="detail_image_padding_5dp">5dp</dimen>
+    <dimen name="detail_image_padding_10dp">10dp</dimen>
+
+    <!-- setting margin of note detail activity -->
+    <dimen name="detail_edit_margin_5dp">5dp</dimen>
+    <dimen name="detail_alarm_margin_5dp">5dp</dimen>
+    <dimen name="detail_alarm_margin_10dp">10dp</dimen>
+    <dimen name="detail_image_margin_5dp">5dp</dimen>
+    <dimen name="detail_image_margin_10dp">10dp</dimen>
+
+    <!-- setting text size of note detail activity -->
+    <dimen name="detail_date_text_size_12sp">12sp</dimen>
+    <dimen name="detail_hint_text_size_14sp">14sp</dimen>
+    <dimen name="detail_hint_text_size_16sp">16sp</dimen>
+    <dimen name="detail_alarm_text_size_12sp">12sp</dimen>
+    <dimen name="detail_toolbar_text_size_16sp">16sp</dimen>
+
+
+    <!-- setting size of dialog -->
+    <dimen name="dialog_choose_text_size_20sp">20sp</dimen>
+    <dimen name="dialog_choose_text_size_photo_14sp">14sp</dimen>
+    <dimen name="dialog_choose_text_size_photo_12sp">12sp</dimen>
+
+    <!-- setting size -->
+    <dimen name="actionBarSize">56dp</dimen>
+    <dimen name="bottomMenuSize">56dp</dimen>
+    <dimen name="alarmSize">44dp</dimen>
+    <dimen name="dialogSize">40dp</dimen>
+    <dimen name="imageSize">85dp</dimen>
+
+    <!-- setting padding of dialog -->
+    <dimen name="dialog_choose_padding_15dp">15dp</dimen>
+    <dimen name="dialog_camera_padding_15dp">15dp</dimen>
+    <dimen name="dialog_camera_padding_7dp">7dp</dimen>
+    <dimen name="dialog_camera_padding_10dp">10dp</dimen>
+    <dimen name="dialog_camera_padding_5dp">5dp</dimen>
+
+
+
+</resources>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:background="@color/main_toolbar_color_background"
+    android:theme="@style/CustomActionBarTheme"
+    android:layout_height="@dimen/actionBarSize"
+    android:layout_width="match_parent"
+    android:padding="@dimen/main_toolbar_padding_0dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ImageView
+        android:id="@+id/img_back"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/actionBarSize"
+        android:src="@drawable/ic_back"
+        android:layout_alignParentLeft="true" />
+
+    <ImageView
+        android:id="@+id/img_logo"
+        android:layout_width="@dimen/actionBarSize"
+        android:layout_height="@dimen/actionBarSize"
+        android:src="@drawable/note"
+        android:paddingTop="@dimen/detail_toolbar_padding_12dp"
+        android:paddingRight="@dimen/detail_toolbar_padding_12dp"
+        android:paddingBottom="@dimen/detail_toolbar_padding_12dp"
+        android:layout_toRightOf="@+id/img_back"/>
+
+    <TextView
+        android:id="@+id/tv_title_note"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/actionBarSize"
+        android:layout_toRightOf="@+id/img_logo"
+        android:gravity="center"
+        android:text="@string/main_toolbar_text_title"
+        android:textColor="@color/main_toolbar_color_text_title"
+        android:textSize="@dimen/detail_toolbar_text_size_16sp"
+        android:textStyle="normal"
+        android:maxLength="6"
+        android:maxLines="1"/>
+
+    <ImageView
+        android:id="@+id/img_check"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/actionBarSize"
+        android:src="@drawable/ic_check"
+        android:layout_alignParentRight="true"
+        android:padding="@dimen/detail_toolbar_padding_14dp"/>
+
+    <ImageView
+        android:id="@+id/img_choose"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/actionBarSize"
+        android:src="@drawable/ic_choose_color"
+        android:layout_toLeftOf="@+id/img_check"
+        android:padding="@dimen/detail_toolbar_padding_14dp"/>
+
+    <ImageView
+        android:id="@+id/img_camera"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/actionBarSize"
+        android:src="@drawable/ic_camera"
+        android:layout_toLeftOf="@+id/img_choose"
+        android:padding="@dimen/detail_toolbar_padding_14dp"/>
+
+</RelativeLayout>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <!-- color text of main activitty -->
+    <color name="main_activity_color_text">#000000</color>
+    <color name="main_item_color_text">#000000</color>
+    <color name="main_item_color_text_time">#7e7878</color>
+    <color name="main_item_color_text_line">#4e4949</color>
+
+    <!-- color background of toolbar main activity -->
+    <color name="main_toolbar_color_background">#3c67cc</color>
+    <color name="black_transparent">#2d2a2a</color>
+
+    <!-- color text of toolbar main activity -->
+    <color name="main_toolbar_color_text_title">#ffffff</color>
+
+
+    <!-- color text of detail note activity -->
+    <color name="detail_color_text_date">#6c6767</color>
+    <color name="detail_color_hint_title">#403b3b</color>
+    <color name="detail_color_hint_note">#5c5555</color>
+
+    <!-- color of dialog choose color -->
+    <color name="dialog_choose_color_background">#ffffff</color>
+    <color name="dialog_choose_color_background_body">#60c18d</color>
+    <color name="dialog_choose_color_text_title">#2f4fcf</color>
+    <color name="dialog_choose_color_text_line">#0e37d7</color>
+    <color name="dialog_choose_color_text_take_photo">#000000</color>
+    <color name="dialog_choose_color_text_choose_photo">#000000</color>
+
+</resources>

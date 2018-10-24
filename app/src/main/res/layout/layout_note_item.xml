@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:elevation="4dp"
+        android:layout_margin="@dimen/main_item_margin_10dp">
+
+        <RelativeLayout
+            android:padding="@dimen/main_item_padding_5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_item_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/main_item_text_title"
+                android:lines="1"
+                android:maxLength="10"
+                android:textColor="@color/main_item_color_text"
+                android:textStyle="bold"
+                android:textSize="@dimen/main_item_text_size_18sp"
+                android:padding="@dimen/main_item_padding_10dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"/>
+
+            <TextView
+                android:id="@+id/item_line"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:padding="@dimen/main_item_margin_10dp"
+                android:layout_below="@+id/tv_item_title"
+                android:background="@color/main_item_color_text_line"/>
+
+            <TextView
+                android:id="@+id/tv_item_body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/main_item_text_body"
+                android:textColor="@color/main_item_color_text"
+                android:textStyle="normal"
+                android:maxLines="4"
+                android:maxLength="23"
+                android:textSize="@dimen/main_item_text_size_12sp"
+                android:padding="@dimen/main_item_padding_10dp"
+                android:layout_below="@+id/item_line"
+                android:layout_alignParentLeft="true"/>
+
+            <TextView
+                android:id="@+id/tv_item_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/main_item_text_time"
+                android:textColor="@color/main_item_color_text_time"
+                android:textStyle="normal"
+                android:textSize="@dimen/main_item_text_size_12sp"
+                android:padding="@dimen/main_item_padding_10dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"/>
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+</RelativeLayout>

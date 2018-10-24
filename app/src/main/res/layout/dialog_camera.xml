@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:id="@+id/tv_title_camera"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/text_title_camera"
+        android:textSize="@dimen/dialog_choose_text_size_20sp"
+        android:padding="@dimen/dialog_choose_padding_15dp"
+        android:textStyle="normal"
+        android:textColor="@color/dialog_choose_color_text_title"/>
+
+    <TextView
+        android:id="@+id/tv_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/dialog_choose_color_text_line"
+        android:layout_below="@+id/tv_title_camera"/>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_line">
+
+        <RelativeLayout
+            android:id="@+id/choose_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingRight="@dimen/dialog_camera_padding_15dp"
+            android:paddingLeft="@dimen/dialog_camera_padding_15dp"
+            android:paddingTop="@dimen/dialog_camera_padding_15dp"
+            android:paddingBottom="@dimen/dialog_camera_padding_5dp">
+
+            <ImageView
+                android:id="@+id/img_logo_camera"
+                android:layout_width="@dimen/dialogSize"
+                android:layout_height="@dimen/dialogSize"
+                android:src="@drawable/ic_camera_dialog"
+                android:padding="@dimen/dialog_camera_padding_7dp"/>
+
+            <TextView
+                android:id="@+id/tv_camera"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dialogSize"
+                android:text="@string/text_take_photo"
+                android:textStyle="normal"
+                android:textColor="@color/dialog_choose_color_text_take_photo"
+                android:textSize="@dimen/dialog_choose_text_size_photo_14sp"
+                android:layout_toRightOf="@+id/img_logo_camera"
+                android:paddingLeft="@dimen/dialog_camera_padding_10dp"
+                android:gravity="left|center"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/choose_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingRight="@dimen/dialog_camera_padding_15dp"
+            android:paddingLeft="@dimen/dialog_camera_padding_15dp"
+            android:paddingBottom="@dimen/dialog_camera_padding_15dp"
+            android:paddingTop="@dimen/dialog_camera_padding_5dp">
+
+            <ImageView
+                android:id="@+id/img_logo_photo"
+                android:layout_width="@dimen/dialogSize"
+                android:layout_height="@dimen/dialogSize"
+                android:src="@drawable/ic_insert_photo"
+                android:padding="@dimen/dialog_camera_padding_7dp"/>
+
+            <TextView
+                android:id="@+id/tv_photo"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dialogSize"
+                android:text="@string/text_choose_photo"
+                android:textStyle="normal"
+                android:textColor="@color/dialog_choose_color_text_take_photo"
+                android:textSize="@dimen/dialog_choose_text_size_photo_14sp"
+                android:layout_toRightOf="@+id/img_logo_photo"
+                android:paddingLeft="@dimen/dialog_camera_padding_10dp"
+                android:gravity="left|center"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+</RelativeLayout>

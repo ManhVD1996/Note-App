@@ -1,0 +1,39 @@
+<resources>
+    <string name="app_name">Note App</string>
+
+    <!-- text of main activity -->
+    <string name="main_toolbar_text_title">Note</string>
+    <string name="main_item_text_title">Untile</string>
+    <string name="main_item_text_body">No body</string>
+    <string name="main_item_text_time">17/10 10:13</string>
+
+    <!-- text of no note screen in main activity -->
+    <string name="main_screen_text_no_note">No Notes</string>
+
+    <!-- text of detail note activity -->
+    <string name="detail_text_date">17/10/2018 10:59</string>
+    <string name="detail_hint_title">Title</string>
+    <string name="detail_hint_note">Note</string>
+    <string name="detail_text_alarm">Alarm</string>
+    <string name="detail_text_no_title">Untitle</string>
+
+    <!-- format time -->
+    <string name="format_time_detail">dd/MM/yyyy hh:mm:ss</string>
+    <string name="format_time_item">dd/MM hh:mm</string>
+
+    <!-- Log Tag -->
+    <string name="log_tag_detail">Success!</string>
+    
+    <!-- Dialog choose color -->
+    <string name="text_title_choose_color">Choose Color</string>
+
+    <!-- dialog camera -->
+    <string name="text_title_camera">Insert Picture</string>
+    <string name="text_take_photo">Take Photo</string>
+    <string name="text_choose_photo">Choose Photo</string>
+
+    <!-- dialog delete -->
+    <string name="text_title_delete">Confirm Delete</string>
+    <string name="text_message_delete">Are you sure want to delete this?</string>
+
+</resources>
