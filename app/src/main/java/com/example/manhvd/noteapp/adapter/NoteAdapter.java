@@ -2,7 +2,9 @@ package com.example.manhvd.noteapp.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,13 +38,14 @@ public class NoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     public class NoteHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView mTvItemTitle, mTvItemBody, mTvItemTime;
+        CardView mCardViewItem;
 
         public NoteHolder(@NonNull View itemView) {
             super(itemView);
             mTvItemTitle = (TextView) itemView.findViewById(R.id.tv_item_title);
             mTvItemBody = (TextView) itemView.findViewById(R.id.tv_item_body);
             mTvItemTime = (TextView) itemView.findViewById(R.id.tv_item_time);
-
+            mCardViewItem = (CardView) itemView.findViewById(R.id.card_view);
             itemView.setOnClickListener(this);
         }
 
@@ -67,6 +70,7 @@ public class NoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             noteHolder.mTvItemTitle.setText(note.getTitle());
             noteHolder.mTvItemBody.setText(note.getBody());
             noteHolder.mTvItemTime.setText(note.getTime());
+            noteHolder.mCardViewItem.setBackgroundColor(Color.parseColor(note.getColor()));
         }
     }
 

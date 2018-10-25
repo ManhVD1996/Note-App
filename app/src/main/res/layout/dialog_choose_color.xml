@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:layout_width="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
@@ -17,15 +17,54 @@
     <TextView
         android:id="@+id/tv_line"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="2dp"
         android:background="@color/dialog_choose_color_text_line"
         android:layout_below="@+id/tv_title_choose"/>
     
     <LinearLayout
+        android:weightSum="4"
+        android:orientation="horizontal"
         android:background="@color/dialog_choose_color_background_body"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/chooseColorLayoutSize"
         android:layout_below="@+id/tv_line">
 
+        <TextView
+            android:id="@+id/view_white"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/chooseColorSize"
+            android:background="@color/white"
+            android:layout_margin="10dp"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:id="@+id/view_orange"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/chooseColorSize"
+            android:background="@color/orange"
+            android:layout_margin="10dp"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:id="@+id/view_green"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/chooseColorSize"
+            android:background="@color/green"
+            android:layout_margin="10dp"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:id="@+id/view_blue"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/chooseColorSize"
+            android:background="@color/blue"
+            android:layout_margin="10dp"
+            android:layout_gravity="center"/>
+
     </LinearLayout>
+
 </RelativeLayout>

@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,9 +25,13 @@ import android.view.ContextThemeWrapper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.ShareActionProvider;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,15 +40,18 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.manhvd.noteapp.Helper;
 import com.example.manhvd.noteapp.R;
 import com.example.manhvd.noteapp.database.DatabaseNote;
+import com.example.manhvd.noteapp.dialog.ChooseColorDialog;
 import com.example.manhvd.noteapp.dialog.InsertPictureDialog;
 import com.example.manhvd.noteapp.model.Note;
+import com.example.manhvd.noteapp.utils.NetworkUtils;
+import com.example.manhvd.noteapp.utils.view.CustomLine;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class DetailActivity extends AppCompatActivity implements View.OnClickListener {
+public class DetailActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
     public static final String NEED_REFRESH = "needRefresh";
     public static final String DATA = "data";
@@ -53,25 +61,35 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
     public static final String POSITION = "position";
 
+    private AddActivity mAddActivity;
+    private RelativeLayout mLayoutDetail;
     private Toolbar mToolbar;
     private ImageView mImgDetailBack, mImgDetailCamera, mImgDetailColor, mImgDetailCheck;
     private TextView mTvDetailTitle;
 
-    private EditText mEdtDetailTitle, mEdtDetailBody;
-    private TextView mTvDetailTime;
+    private CustomLine mEdtDetailTitle, mEdtDetailBody;
+    private TextView mTvDetailTime, mTvDetailAlarm;
 
     private ImageView mImgDetailBottomBack, mImgDetailBottomShare, mImgDetailBottomDel, mImgDetailBottomNext;
     private ImageView mImgDetailBody;
+    private Spinner mSpinDetailDay, mSpinDetailTime;
+    private ImageView mImgDetailClose;
+    private  ArrayAdapter<String> adapterDetailDay;
+    private ArrayAdapter<String> adapterDetailTime;
+
     private Context mContext;
     private Boolean isRefresh;
 
     private int id, position, count;
-    private String mTitle, mBody, mTime;
+    private String mTitle, mBody, mTime, mBackground, mColor;
     private String timeUpdate, timeFullUpdate;
     private DatabaseNote mDatabaseNote;
     private InsertPictureDialog pictureDialog;
+    private ChooseColorDialog colorDialog;
+
     Note mNote;
     private List<Note> noteList;
+    private List<String> detailDay, detailTime;
 
     private String mPathImage;
     private ShareActionProvider mShareActionProvider;
@@ -83,9 +101,11 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
         initToolbar();
         initView();
+        mDatabaseNote = new DatabaseNote(this);
         noteList = new ArrayList<Note>();
         getData();
-        mDatabaseNote = new DatabaseNote(this);
+        initSpin();
+        mColor = mBackground;
     }
 
     private void initToolbar() {
@@ -110,10 +130,11 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void initView() {
+        mLayoutDetail = (RelativeLayout) findViewById(R.id.layout_detail);
         mImgDetailBody = (ImageView) findViewById(R.id.img_detail_note);
         mTvDetailTime = (TextView) findViewById(R.id.tv_detail_date_note);
-        mEdtDetailTitle = (EditText) findViewById(R.id.edt_detail_title_note);
-        mEdtDetailBody = (EditText) findViewById(R.id.edt_detail_body_note);
+        mEdtDetailTitle = (CustomLine) findViewById(R.id.edt_detail_title_note);
+        mEdtDetailBody = (CustomLine) findViewById(R.id.edt_detail_body_note);
         mEdtDetailTitle.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -134,6 +155,9 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
             }
         });
+        mTvDetailAlarm = (TextView) findViewById(R.id.tv_button_detail_alarm);
+        mTvDetailAlarm.setOnClickListener(this);
+        mTvDetailAlarm.setVisibility(View.VISIBLE);
 
         mImgDetailBottomBack = (ImageView) findViewById(R.id.img_bottom_note_back);
         mImgDetailBottomBack.setOnClickListener(this);
@@ -143,6 +167,39 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         mImgDetailBottomDel.setOnClickListener(this);
         mImgDetailBottomNext = (ImageView) findViewById(R.id.img_bottom_note_next);
         mImgDetailBottomNext.setOnClickListener(this);
+    }
+
+    private void initSpin() {
+        mSpinDetailDay = (Spinner) findViewById(R.id.spin_day);
+        mSpinDetailDay.setOnItemSelectedListener(this);
+        mSpinDetailTime = (Spinner) findViewById(R.id.spin_time);
+        mSpinDetailTime.setOnItemSelectedListener(this);
+        mImgDetailClose = (ImageView) findViewById(R.id.img_close);
+        mImgDetailClose.setOnClickListener(this);
+
+        detailDay = new ArrayList<>();
+        detailDay.add("Today");
+        detailDay.add("Tomorrow");
+        detailDay.add("Next thứ 5");
+        detailDay.add("Other...");
+        adapterDetailDay = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, detailDay);
+        adapterDetailDay.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
+        mSpinDetailDay.setAdapter(adapterDetailDay);
+
+        detailTime = new ArrayList<>();
+        detailTime.add("09:00");
+        detailTime.add("13:00");
+        detailTime.add("17:00");
+        detailTime.add("20:00");
+        detailTime.add("Other");
+        adapterDetailTime = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, detailTime);
+        adapterDetailTime.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
+        mSpinDetailTime.setAdapter(adapterDetailTime);
+
+        mSpinDetailDay.setVisibility(View.GONE);
+        mSpinDetailTime.setVisibility(View.GONE);
+        mImgDetailClose.setVisibility(View.GONE);
+
     }
 
     private void getData() {
@@ -158,11 +215,13 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         mTitle = String.valueOf(mNote.getTitle());
         mBody = String.valueOf(mNote.getBody());
         mTime = String.valueOf(mNote.getTimeFull());
+        mBackground = String.valueOf(mNote.getColor());
 
         mTvDetailTitle.setText(mTitle);
         mTvDetailTime.setText(mTime);
         mEdtDetailTitle.setText(mTitle);
         mEdtDetailBody.setText(mBody);
+        mLayoutDetail.setBackgroundColor(Color.parseColor(mBackground));
     }
 
     @Override
@@ -186,7 +245,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.img_back:
-                if(mEdtDetailTitle.getText().toString().equals(mTitle) && mEdtDetailBody.getText().toString().equals(mBody)) {
+                if(mEdtDetailTitle.getText().toString().equals(mTitle) && mEdtDetailBody.getText().toString().equals(mBody) && mColor == mBackground) {
                     this.onBackPressed();
                 } else {
                     updateNoteIntoDatabase();
@@ -202,7 +261,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                 break;
 
             case R.id.img_choose:
-                //TODO
+                showChangeBackgroundDialog();
                 break;
 
             case R.id.img_check:
@@ -211,6 +270,20 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                 Intent intent = new Intent(DetailActivity.this, MainActivity.class);
                 Helper.hideKeyboard(this);
                 startActivity(intent);
+                break;
+
+            case R.id.tv_button_detail_alarm:
+                mTvDetailAlarm.setVisibility(View.GONE);
+                mSpinDetailDay.setVisibility(View.VISIBLE);
+                mSpinDetailTime.setVisibility(View.VISIBLE);
+                mImgDetailClose.setVisibility(View.VISIBLE);
+                break;
+
+            case R.id.img_close:
+                mTvDetailAlarm.setVisibility(View.VISIBLE);
+                mSpinDetailDay.setVisibility(View.GONE);
+                mSpinDetailTime.setVisibility(View.GONE);
+                mImgDetailClose.setVisibility(View.GONE);
                 break;
 
             case R.id.img_bottom_note_back:
@@ -248,14 +321,47 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-    private void shareFuction() {
-        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+    private void showChangeBackgroundDialog() {
+        colorDialog = new ChooseColorDialog(this);
+        colorDialog.setmChangeBackground(new ChooseColorDialog.ChangeBackground() {
+            @Override
+            public void changeColorWhile() {
+                mLayoutDetail.setBackgroundColor(Color.parseColor(Helper.Color.WHILE));
+                mBackground = Helper.Color.WHILE;
+            }
 
-        shareIntent.setType("text/plain");
-        shareIntent.putExtra(Intent.EXTRA_SUBJECT, mEdtDetailTitle.getText().toString());
-//        shareIntent.putExtra(Intent.EXTRA_TEXT, mEdtDetailTitle.getText().toString());
-        shareIntent.putExtra(Intent.EXTRA_TEXT, mEdtDetailBody.getText().toString());
-        startActivity(Intent.createChooser(shareIntent, "Share with"));
+            @Override
+            public void changeColorOrange() {
+                mLayoutDetail.setBackgroundColor(Color.parseColor(Helper.Color.ORANGE));
+                mBackground = Helper.Color.ORANGE;
+            }
+
+            @Override
+            public void changeColorGreen() {
+                mLayoutDetail.setBackgroundColor(Color.parseColor(Helper.Color.GREEN));
+                mBackground = Helper.Color.GREEN;
+            }
+
+            @Override
+            public void changeColorBlue() {
+                mLayoutDetail.setBackgroundColor(Color.parseColor(Helper.Color.BLUE));
+                mBackground = Helper.Color.BLUE;
+            }
+        });
+        colorDialog.show();
+    }
+
+    private void shareFuction() {
+        if(NetworkUtils.hasConnection(this)) {
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setType("text/plain");
+            shareIntent.putExtra(Intent.EXTRA_SUBJECT, mEdtDetailTitle.getText().toString());
+//          shareIntent.putExtra(Intent.EXTRA_TEXT, mEdtDetailTitle.getText().toString());
+            shareIntent.putExtra(Intent.EXTRA_TEXT, mEdtDetailBody.getText().toString());
+            startActivity(Intent.createChooser(shareIntent, "Share with"));
+        } else {
+            Toast.makeText(DetailActivity.this, "Disconnect Network!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void updateNoteIntoDatabase() {
@@ -268,6 +374,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         this.mNote.setBody(body);
         this.mNote.setTime(Helper.setTime(timeUpdate));
         this.mNote.setTimeFull(Helper.setTimeFull(timeFullUpdate));
+        this.mNote.setColor(mBackground);
         mDatabaseNote.update(mNote);
     }
 
@@ -375,5 +482,15 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         data.putExtra(NEED_REFRESH, isRefresh);
         this.setResult(Activity.RESULT_OK, data);
         super.finish();
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }

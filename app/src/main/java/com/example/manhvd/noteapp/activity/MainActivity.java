@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Toolbar mToolbar;
     private View mNoNote;
     private RecyclerView mListNote;
+    private CardView mCardView;
     private NoteAdapter adapter;
     private ImageView mImgAdd;
     private Handler mHandler;
@@ -66,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void initView() {
         mNoNote = findViewById(R.id.no_note);
+        mCardView = (CardView) findViewById(R.id.card_view);
         mListNote = (RecyclerView) findViewById(R.id.list_notes);
         mListNote.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 2);

@@ -20,6 +20,14 @@ public class Helper {
         public static final String TIME_NOTE = "Time_Note";
     }
 
+    public static class Color {
+        public static final String WHILE = "#FFFFFF";
+        public static final String ORANGE = "#e17345";
+        public static final String GREEN = "#45e14a";
+        public static final String BLUE = "#5884ff";
+        public static final String COLOR_DEFAULT = "#ffffff";
+    }
+
     public static void hideKeyboard(Activity activity) {
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
         View view = activity.getCurrentFocus();

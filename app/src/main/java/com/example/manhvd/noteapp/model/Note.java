@@ -10,24 +10,33 @@ public class Note implements Parcelable {
     private String time;
     private String timeFull;
     private String pathImage;
-//    private String color;
+    private String color;
 
     public Note() {
     }
 
-    public Note(int id, String title, String body, String time, String timeFull) {
+    public Note(int id, String title, String body, String time, String timeFull, String color) {
         this.id = id;
         this.title = title;
         this.body = body;
         this.time = time;
         this.timeFull = timeFull;
+        this.color = color;
     }
 
-    public Note(String title, String body, String time, String timeFull) {
+    public Note(String title, String body, String time, String timeFull, String color) {
         this.title = title;
         this.body = body;
         this.time = time;
         this.timeFull = timeFull;
+        this.color = color;
+    }
+
+    public Note(String title, String body, String time, String color) {
+        this.title = title;
+        this.body = body;
+        this.time = time;
+        this.color = color;
     }
 
     public Note(String title, String body, String time) {
@@ -52,6 +61,7 @@ public class Note implements Parcelable {
         time = in.readString();
         timeFull = in.readString();
         pathImage = in.readString();
+        color = in.readString();
     }
 
     public static final Creator<Note> CREATOR = new Creator<Note>() {
@@ -114,6 +124,14 @@ public class Note implements Parcelable {
         this.timeFull = timeFull;
     }
 
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -127,13 +145,6 @@ public class Note implements Parcelable {
         dest.writeString(time);
         dest.writeString(timeFull);
         dest.writeString(pathImage);
+        dest.writeString(color);
     }
-
-    //    public String getColor() {
-//        return color;
-//    }
-//
-//    public void setColor(String color) {
-//        this.color = color;
-//    }
 }

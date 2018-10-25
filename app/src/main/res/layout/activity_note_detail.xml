@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:layout_height="match_parent"
+<RelativeLayout
+    android:id="@+id/layout_detail"
+    android:layout_height="match_parent"
     android:layout_width="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -39,27 +41,31 @@
         android:layout_alignParentRight="true"
         android:padding="@dimen/detail_date_padding_12dp"/>
 
-    <EditText
+    <com.example.manhvd.noteapp.utils.view.CustomLine
         android:id="@+id/edt_detail_title_note"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/detail_hint_title"
         android:paddingLeft="@dimen/detail_hint_padding_10dp"
+        android:paddingRight="@dimen/detail_hint_padding_10dp"
+        android:background="@android:color/transparent"
         android:maxLines="1"
         android:textColorHint="@color/detail_color_hint_title"
         android:textStyle="bold"
         android:textSize="@dimen/detail_hint_text_size_16sp"
         android:layout_below="@+id/tv_detail_date_note"/>
 
-    <EditText
+    <com.example.manhvd.noteapp.utils.view.CustomLine
         android:id="@+id/edt_detail_body_note"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/detail_hint_note"
+        android:background="@android:color/transparent"
         android:paddingLeft="@dimen/detail_hint_padding_10dp"
+        android:paddingRight="@dimen/detail_hint_padding_10dp"
         android:textColorHint="@color/detail_color_hint_note"
-        android:textStyle="bold"
-        android:textSize="@dimen/detail_hint_text_size_16sp"
+        android:textStyle="normal"
+        android:textSize="@dimen/detail_hint_text_size_14sp"
         android:layout_below="@+id/edt_detail_title_note"
         android:layout_marginTop="@dimen/detail_edit_margin_5dp"/>
 
@@ -73,7 +79,7 @@
         android:layout_marginLeft="@dimen/detail_alarm_padding_10dp"/>
 
     <TextView
-        android:id="@+id/tv_button_alarm"
+        android:id="@+id/tv_button_detail_alarm"
         android:layout_width="@dimen/alarmSize"
         android:layout_height="@dimen/alarmSize"
         android:text="@string/detail_text_alarm"
@@ -82,6 +88,14 @@
         android:layout_below="@+id/edt_detail_body_note"
         android:layout_toRightOf="@+id/img_alarm_detail"
         android:gravity="center" />
+
+    <include
+        layout="@layout/layout_spinner"
+        android:id="@+id/spinner"
+        android:layout_height="@dimen/alarmSize"
+        android:layout_width="wrap_content"
+        android:layout_below="@+id/edt_detail_body_note"
+        android:layout_toRightOf="@+id/img_alarm_detail" />
 
     <include 
         android:id="@+id/bottom_menu_detail"

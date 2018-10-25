@@ -39,8 +39,8 @@ public class DatabaseNote extends SQLiteOpenHelper {
                 TITLE     + " TEXT, "                +
                 BODY      + " TEXT, "                +
                 TIME      + " TEXT, "                +
-                TIME_FULL + " TEXT)";
-//                COLOR   + " TEXT)";
+                TIME_FULL + " TEXT, "                +
+                COLOR     + " TEXT)";
         db.execSQL(sqlquery);
     }
 
@@ -58,7 +58,7 @@ public class DatabaseNote extends SQLiteOpenHelper {
         values.put(BODY, note.getBody());
         values.put(TIME, note.getTime());
         values.put(TIME_FULL, note.getTimeFull());
-//        values.put(COLOR, note.getColor());
+        values.put(COLOR, note.getColor());
 
         db.insert(TABLE_NAME, null, values);
         db.close();
@@ -66,13 +66,13 @@ public class DatabaseNote extends SQLiteOpenHelper {
 
     public Note getNoteById(int id) {
         SQLiteDatabase database = this.getReadableDatabase();
-        Cursor cursor = database.query(TABLE_NAME, new String[]{ID, TITLE, BODY, TIME, TIME_FULL}, ID + " =?",
+        Cursor cursor = database.query(TABLE_NAME, new String[]{ID, TITLE, BODY, TIME, TIME_FULL, COLOR}, ID + " =?",
                 new String[]{ String.valueOf(id) }, null, null, null, null);
         if(cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
         }
 
-        Note note = new Note(cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4));
+        Note note = new Note(cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5));
         note.setId(id);
         cursor.close();
         database.close();
@@ -86,6 +86,7 @@ public class DatabaseNote extends SQLiteOpenHelper {
         values.put(BODY, note.getBody());
         values.put(TIME, note.getTime());
         values.put(TIME_FULL, note.getTimeFull());
+        values.put(COLOR, note.getColor());
         return database.update(TABLE_NAME, values, ID + " =?", new String[]{String.valueOf(note.getId())});
     }
 
@@ -102,7 +103,7 @@ public class DatabaseNote extends SQLiteOpenHelper {
                 note.setBody(cursor.getString(2));
                 note.setTime(cursor.getString(3));
                 note.setTimeFull(cursor.getString(4));
-//                note.setColor(cursor.getString(5));
+                note.setColor(cursor.getString(5));
                 noteList.add(note);
             } while (cursor.moveToNext());
         }

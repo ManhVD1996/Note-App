@@ -42,6 +42,7 @@
 
     <!-- setting margin of note detail activity -->
     <dimen name="detail_edit_margin_5dp">5dp</dimen>
+    <dimen name="detail_edit_margin_8dp">8dp</dimen>
     <dimen name="detail_alarm_margin_5dp">5dp</dimen>
     <dimen name="detail_alarm_margin_10dp">10dp</dimen>
     <dimen name="detail_image_margin_5dp">5dp</dimen>
@@ -66,6 +67,10 @@
     <dimen name="alarmSize">44dp</dimen>
     <dimen name="dialogSize">40dp</dimen>
     <dimen name="imageSize">85dp</dimen>
+    <dimen name="spinnerDaySize">150dp</dimen>
+    <dimen name="spinnerTimeSize">100dp</dimen>
+    <dimen name="chooseColorSize">50dp</dimen>
+    <dimen name="chooseColorLayoutSize">120dp</dimen>
 
     <!-- setting padding of dialog -->
     <dimen name="dialog_choose_padding_15dp">15dp</dimen>
@@ -74,6 +79,8 @@
     <dimen name="dialog_camera_padding_10dp">10dp</dimen>
     <dimen name="dialog_camera_padding_5dp">5dp</dimen>
 
-
+    <!-- Spinner -->
+    <dimen name="spinner_padding_5dp">5dp</dimen>
+    <dimen name="spinner_padding_7dp">7dp</dimen>
 
 </resources>

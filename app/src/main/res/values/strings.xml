@@ -18,7 +18,7 @@
     <string name="detail_text_no_title">Untitle</string>
 
     <!-- format time -->
-    <string name="format_time_detail">dd/MM/yyyy hh:mm:ss</string>
+    <string name="format_time_detail">dd/MM/yyyy hh:mm</string>
     <string name="format_time_item">dd/MM hh:mm</string>
 
     <!-- Log Tag -->
@@ -35,5 +35,9 @@
     <!-- dialog delete -->
     <string name="text_title_delete">Confirm Delete</string>
     <string name="text_message_delete">Are you sure want to delete this?</string>
+
+    <!-- Spinner -->
+    <string name="text_spinner_day">Today</string>
+    <string name="text_spinner_time">09:00</string>
 
 </resources>

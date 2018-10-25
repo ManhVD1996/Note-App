@@ -2,18 +2,19 @@ package com.example.manhvd.noteapp.activity;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -21,9 +22,14 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -31,36 +37,50 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.manhvd.noteapp.Helper;
 import com.example.manhvd.noteapp.R;
 import com.example.manhvd.noteapp.database.DatabaseNote;
+import com.example.manhvd.noteapp.dialog.ChooseColorDialog;
+import com.example.manhvd.noteapp.dialog.DateTimePickerDialog;
 import com.example.manhvd.noteapp.dialog.InsertPictureDialog;
 import com.example.manhvd.noteapp.model.Note;
+import com.example.manhvd.noteapp.utils.view.CustomLine;
 
-import java.io.File;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
-public class AddActivity extends AppCompatActivity implements View.OnClickListener {
+public class AddActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
     private static final String TAG = "ManhVD1996";
     public static final String NEED_REFRESH = "needRefresh";
     public static final String DATA = "data";
     public static final int CAMERA_REQUEST_CODE = 1234;
     public static final int STORAGE_REQUEST_CODE = 1111;
-    public static final int CAMERA_STORAGE_PERMISSION = 1996;
+//    public static final int CAMERA_STORAGE_PERMISSION = 1996;
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
 
+    private RelativeLayout mLayout;
     private Toolbar mToolbar;
     private ImageView mImgBack, mImgChooseColor, mImgCamera, mImgCheck;
     private ImageView mImgNoteBody;
     private TextView mTvDate, mTvAlarm, mTvTitleNote;
-    private EditText mEditTitle, mEditNote;
+    private CustomLine mEditTitle, mEditNote;
+    private Spinner mSpinDay, mSpinTime;
+    private ImageView mImgClose;
+
+    private  ArrayAdapter<String> adapterDay;
+    private ArrayAdapter<String> adapterTime;
+
     private Handler mHandler;
     private DatabaseNote databaseNote;
     private boolean needRefresh;
     private String mTimeItem, mTimeItemFull;
     private InsertPictureDialog pictureDialog;
+    private ChooseColorDialog colorDialog;
 
+    private String mCodeColor;
     private String mPathImage;
+    private List<String> dayList;
+    private List<String> timeList;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,7 +93,42 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         initView();
         setTimeDetail();
         setTimeItem();
+        initSpin();
+        mCodeColor = Helper.Color.COLOR_DEFAULT;
         databaseNote = new DatabaseNote(this);
+
+    }
+
+    private void initSpin() {
+        mSpinDay = (Spinner) findViewById(R.id.spin_day);
+        mSpinDay.setOnItemSelectedListener(this);
+        mSpinTime = (Spinner) findViewById(R.id.spin_time);
+        mSpinTime.setOnItemSelectedListener(this);
+        mImgClose = (ImageView) findViewById(R.id.img_close);
+        mImgClose.setOnClickListener(this);
+
+        dayList = new ArrayList<>();
+        dayList.add("Today");
+        dayList.add("Tomorrow");
+        dayList.add("Next thứ 5");
+        dayList.add("Other...");
+        adapterDay = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, dayList);
+        adapterDay.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
+        mSpinDay.setAdapter(adapterDay);
+
+        timeList = new ArrayList<>();
+        timeList.add("09:00");
+        timeList.add("13:00");
+        timeList.add("17:00");
+        timeList.add("20:00");
+        timeList.add("Other");
+        adapterTime = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, timeList);
+        adapterTime.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
+        mSpinTime.setAdapter(adapterTime);
+
+        mSpinDay.setVisibility(View.GONE);
+        mSpinTime.setVisibility(View.GONE);
+        mImgClose.setVisibility(View.GONE);
 
     }
 
@@ -100,11 +155,12 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     }
 
     private void initView() {
+        mLayout = (RelativeLayout) findViewById(R.id.layout_add);
         mImgNoteBody = (ImageView) findViewById(R.id.img_note);
         mImgNoteBody.setOnClickListener(this);
         mTvDate = (TextView) findViewById(R.id.tv_detail_date);
 
-        mEditTitle = (EditText) findViewById(R.id.edt_detail_title);
+        mEditTitle = (CustomLine) findViewById(R.id.edt_detail_title);
         mEditTitle.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -126,9 +182,10 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
             }
         });
 
-        mEditNote = (EditText) findViewById(R.id.edt_detail_note);
+        mEditNote = (CustomLine) findViewById(R.id.edt_detail_note);
         mTvAlarm = (TextView) findViewById(R.id.tv_button_alarm);
         mTvAlarm.setOnClickListener(this);
+        mTvAlarm.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -147,7 +204,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
                 showDialog();
                 break;
             case R.id.img_choose:
-                //TODO
+                showChangeColorDialog();
                 break;
             case R.id.img_check:
                 addNoteIntoDatabase();
@@ -158,11 +215,52 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
                 break;
 
             case R.id.tv_button_alarm:
-                //TODO
+                mTvAlarm.setVisibility(View.GONE);
+                mSpinDay.setVisibility(View.VISIBLE);
+                mSpinTime.setVisibility(View.VISIBLE);
+                mImgClose.setVisibility(View.VISIBLE);
                 break;
+
+            case R.id.img_close:
+                mTvAlarm.setVisibility(View.VISIBLE);
+                mSpinDay.setVisibility(View.GONE);
+                mSpinTime.setVisibility(View.GONE);
+                mImgClose.setVisibility(View.GONE);
+                break;
+
             default:
                 break;
         }
+    }
+
+    private void showChangeColorDialog() {
+        colorDialog = new ChooseColorDialog(this);
+        colorDialog.setmChangeBackground(new ChooseColorDialog.ChangeBackground() {
+            @Override
+            public void changeColorWhile() {
+                mLayout.setBackgroundColor(Color.parseColor(Helper.Color.WHILE));
+                mCodeColor = Helper.Color.WHILE;
+            }
+
+            @Override
+            public void changeColorOrange() {
+                mLayout.setBackgroundColor(Color.parseColor(Helper.Color.ORANGE));
+                mCodeColor = Helper.Color.ORANGE;
+            }
+
+            @Override
+            public void changeColorGreen() {
+                mLayout.setBackgroundColor(Color.parseColor(Helper.Color.GREEN));
+                mCodeColor = Helper.Color.GREEN;
+            }
+
+            @Override
+            public void changeColorBlue() {
+                mLayout.setBackgroundColor(Color.parseColor(Helper.Color.BLUE));
+                mCodeColor = Helper.Color.BLUE;
+            }
+        });
+        colorDialog.show();
     }
 
     private void showDialog() {
@@ -259,7 +357,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
             title = getString( R.string.detail_text_no_title);
         }
         String body = mEditNote.getText().toString();
-        Note note = new Note(title, body, mTimeItem, mTimeItemFull);
+        Note note = new Note(title, body, mTimeItem, mTimeItemFull, mCodeColor);
         databaseNote.addNote(note);
 
         Log.d(TAG, getString(R.string.log_tag_detail));
@@ -271,6 +369,46 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         data.putExtra(NEED_REFRESH, needRefresh);
         this.setResult(Activity.RESULT_OK, data);
         super.finish();
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, final int position, long id) {
+        switch (parent.getId()) {
+            case R.id.spin_day:
+                if(position == parent.getCount()-1) {
+                    DateTimePickerDialog.showDateDialog(this, new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                            String datePicker = String.valueOf(dayOfMonth) + "/" + String.valueOf((month+1)) + "/" + String.valueOf(year);
+                            dayList.set(position, datePicker);
+                            adapterDay.notifyDataSetChanged();
+                        }
+                    });
+
+                }
+                break;
+
+            case R.id.spin_time:
+                if(position == parent.getCount()-1) {
+                    DateTimePickerDialog.showTimeDialog(this, new TimePickerDialog.OnTimeSetListener() {
+                        @Override
+                        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                            String timePicker = String.valueOf(hourOfDay) + ":" + String.valueOf(minute);
+                            timeList.set(position, timePicker);
+                            adapterTime.notifyDataSetChanged();
+                        }
+                    });
+                }
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }
 

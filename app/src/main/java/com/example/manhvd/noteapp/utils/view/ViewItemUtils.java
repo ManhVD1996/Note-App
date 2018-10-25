@@ -1,4 +1,4 @@
-package com.example.manhvd.noteapp.utils;
+package com.example.manhvd.noteapp.utils.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
